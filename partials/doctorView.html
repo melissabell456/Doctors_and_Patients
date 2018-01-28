@@ -4,3 +4,10 @@ Doctor first name
 Doctor last name
 Doctor speciality
 In the list show the doctor's full name and the speciality. The doctor's full name should be a hyperlink that, when clicked, will load the patient list for that doctor. -->
+
+<div ng-repeat="doctor in drArr" class="doctorCard">
+  <p>First Name: {{doctor.first_name}}</p>
+  <p>Last Name: {{doctor.last_name}}</p>
+  <p>Specialty: {{doctor.specialty}}</p>
+  <p>View<a href="#!/{{doctor.doctor_id}}">{{" " + doctor.first_name + " " + doctor.last_name + "'s" + "  " }}</a>patients.</p>
+</div>

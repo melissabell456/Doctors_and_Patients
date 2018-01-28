@@ -3,7 +3,7 @@
 angular.module("DoctorApp", ["ngRoute"])
 .config($routeProvider => {
   $routeProvider
-  .when("/", {
+  .when("/doctors", {
     templateUrl: "../partials/doctorView.html",
     controller: "DoctorCtrl"
   });
