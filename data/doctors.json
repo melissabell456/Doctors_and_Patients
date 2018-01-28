@@ -1,0 +1,17 @@
+{
+    "shepherd": {
+        "first_name": "Derek",
+        "last_name": "Shepherd",
+        "speciality": "Neuro"
+    },
+    "sloan": {
+        "first_name": "Mark",
+        "last_name": "Sloan",
+        "speciality": "Plastics"
+    },
+    "burke": {
+        "first_name": "Preston",
+        "last_name": "Burke",
+        "speciality": "Cardio"
+    }
+}

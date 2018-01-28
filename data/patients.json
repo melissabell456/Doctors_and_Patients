@@ -1,0 +1,20 @@
+{
+  "grey": {
+  "first_name": "Meredith",
+  "last_name": "Grey",
+  "ailment": "Broken Heart",
+  "doctor_id": "shepherd"
+  },
+  "hahn": {
+    "first_name": "Erica",
+    "last_name": "Hahn",
+    "ailment": "RBF",
+    "doctor_id": "sloan"
+  },
+  "yang": {
+    "first_name": "Christina",
+    "last_name": "Yang",
+    "ailment": "Wall up",
+    "doctor_id": "burke"
+  }
+}
