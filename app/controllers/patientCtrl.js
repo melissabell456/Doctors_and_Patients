@@ -2,11 +2,15 @@
 
 angular.module("DoctorApp").controller("PatientCtrl", function ($scope, $routeParams, PatientFctry) {
   
-    console.log($routeParams);
-  
     PatientFctry.getPatients()
     .then( (patientData) => {
-      console.log("you got it", patientData);
+      $scope.drsPatients = [];
+      for(let patient in patientData) {
+        let patientsDr = patientData[patient].doctor_id;
+        if (patientsDr === $routeParams.doctor_id) {
+          $scope.drsPatients.push(patientData[patient]);
+        }
+      }
     });
   
   });

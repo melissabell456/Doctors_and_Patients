@@ -4,3 +4,10 @@ Patient first name
 Patient last name
 Patient ailment
 Provide an affordance to show the list of doctors. -->
+
+<div ng-repeat="patient in drsPatients" class="patientCard">
+  <p>First Name: {{patient.first_name}}</p>
+  <p>Last Name: {{patient.last_name}}</p>
+  <p>Ailment: {{patient.ailment}}</p>
+  <p><a ng-href="#!/doctors">Back To Doctors</a></p>
+</div>
