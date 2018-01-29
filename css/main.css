@@ -1,4 +1,6 @@
 .doctorCard {
-  border: 1px solid black; }
+  border: 1px solid black;
+  margin: 1em;
+  text-align: center; }
 
 /*# sourceMappingURL=main.css.map */
