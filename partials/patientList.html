@@ -1,11 +1,5 @@
-<!-- This view will list all of the patients that are assigned to the doctor. Each object in the patient collection will have the following properties.
-
-Patient first name
-Patient last name
-Patient ailment
-Provide an affordance to show the list of doctors. -->
-
 <div ng-repeat="patient in drsPatients" class="patientCard">
+  <h3>Dr. {{patient.doctor_id}}'s patients</h3>
   <p>First Name: {{patient.first_name}}</p>
   <p>Last Name: {{patient.last_name}}</p>
   <p>Ailment: {{patient.ailment}}</p>

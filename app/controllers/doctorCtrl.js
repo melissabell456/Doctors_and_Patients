@@ -11,7 +11,6 @@ angular.module("DoctorApp").controller("DoctorCtrl", function ($scope, DoctorFct
       doctorData[doctor].doctor_id = doctor;
       $scope.drArr.push(doctorData[doctor]);
     }
-    console.log($scope.drArr);
   });
   
 });

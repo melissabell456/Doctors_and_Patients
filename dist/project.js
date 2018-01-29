@@ -394,7 +394,6 @@
 
   "use strict";
 
-  console.log("helo");
 
   module
   .config($routeProvider => {
@@ -5944,6 +5943,487 @@
           .get("https://fir-a5a79.firebaseio.com/patients.json")
           .then( (patientData) => {
             console.log(patientData.data);
+            resolve(patientData.data);
+          })
+          .catch( (err) => {
+            console.log(err);
+            reject(err);
+          });
+        });
+      };
+      return { getPatients };
+    });
+
+}) (angular.module ('DoctorApp', ['ngRoute']));
+
+
+
+//====================================================================================================================
+// Module:    DoctorApp
+// Optimized: Yes
+// File:      ./app/app.js
+//====================================================================================================================
+
+(function (module) {
+
+  "use strict";
+
+  module
+  .config($routeProvider => {
+    $routeProvider
+    .when("/doctors", {
+      templateUrl: "../partials/doctorView.html",
+      controller: "DoctorCtrl"
+    })
+    .when("/doctor/:doctor_id", {
+      templateUrl: "../partials/patientList.html",
+      controller: "PatientCtrl"
+    });
+  });
+
+
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/controllers/doctorCtrl.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.controller("DoctorCtrl", function ($scope, DoctorFctry) {
+
+    DoctorFctry.getDoctorStats()
+    .then( (doctorData) => {
+      $scope.drArr = [];
+      // receives object of doctor objects from API, pushing each object to drArr for angular use in partial
+      for (let doctor in doctorData) {
+        // adding a property of doctor_id of each doctor for use in hyperlink
+        doctorData[doctor].doctor_id = doctor;
+        $scope.drArr.push(doctorData[doctor]);
+      }
+      console.log($scope.drArr);
+    });
+
+  });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/controllers/patientCtrl.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.controller("PatientCtrl", function ($scope, $routeParams, PatientFctry) {
+
+    let selectedDr = $routeParams.doctor_id;
+
+    PatientFctry.getPatients()
+    .then( (patientData) => {
+      // declaring empty array to collect selected doctor's patients for display in DOM
+      $scope.drsPatients = [];
+      // checking for patients with selected doctor
+      for(let patient in patientData) {
+        let patientsDr = patientData[patient].doctor_id;
+        if (patientsDr === selectedDr) {
+          $scope.drsPatients.push(patientData[patient]);
+        }
+      }
+    });
+
+    });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/factories/doctorFctry.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.factory("DoctorFctry", function ($q, $http) {
+
+    const getDoctorStats = () => {
+      return $q( (resolve, reject) => {
+        $http
+        .get("https://fir-a5a79.firebaseio.com/doctors.json")
+        .then( (doctorData) => {
+          resolve(doctorData.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+      });
+    };
+    return { getDoctorStats };
+  });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/factories/patientFctry.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict"; 
+
+  module.factory("PatientFctry", function ($q, $http) {
+
+      const getPatients = () => {
+        return $q( (resolve, reject) => {
+          $http
+          .get("https://fir-a5a79.firebaseio.com/patients.json")
+          .then( (patientData) => {
+            console.log(patientData.data);
+            resolve(patientData.data);
+          })
+          .catch( (err) => {
+            console.log(err);
+            reject(err);
+          });
+        });
+      };
+      return { getPatients };
+    });
+
+}) (angular.module ('DoctorApp', ['ngRoute']));
+
+
+
+//====================================================================================================================
+// Module:    DoctorApp
+// Optimized: Yes
+// File:      ./app/app.js
+//====================================================================================================================
+
+(function (module) {
+
+  "use strict";
+
+  module
+  .config($routeProvider => {
+    $routeProvider
+    .when("/doctors", {
+      templateUrl: "../partials/doctorView.html",
+      controller: "DoctorCtrl"
+    })
+    .when("/doctor/:doctor_id", {
+      templateUrl: "../partials/patientList.html",
+      controller: "PatientCtrl"
+    });
+  });
+
+
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/controllers/doctorCtrl.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.controller("DoctorCtrl", function ($scope, DoctorFctry) {
+
+    DoctorFctry.getDoctorStats()
+    .then( (doctorData) => {
+      $scope.drArr = [];
+      // receives object of doctor objects from API, pushing each object to drArr for angular use in partial
+      for (let doctor in doctorData) {
+        // adding a property of doctor_id of each doctor for use in hyperlink
+        doctorData[doctor].doctor_id = doctor;
+        $scope.drArr.push(doctorData[doctor]);
+      }
+      console.log($scope.drArr);
+    });
+
+  });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/controllers/patientCtrl.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.controller("PatientCtrl", function ($scope, $routeParams, PatientFctry) {
+
+    let selectedDr = $routeParams.doctor_id;
+
+    PatientFctry.getPatients()
+    .then( (patientData) => {
+      // declaring empty array to collect selected doctor's patients for display in DOM
+      $scope.drsPatients = [];
+      // checking for selected doctor's patients
+      for(let patient in patientData) {
+        let patientsDr = patientData[patient].doctor_id;
+        if (patientsDr === selectedDr) {
+          $scope.drsPatients.push(patientData[patient]);
+        }
+      }
+    });
+
+    });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/factories/doctorFctry.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.factory("DoctorFctry", function ($q, $http) {
+
+    const getDoctorStats = () => {
+      return $q( (resolve, reject) => {
+        $http
+        .get("https://fir-a5a79.firebaseio.com/doctors.json")
+        .then( (doctorData) => {
+          resolve(doctorData.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+      });
+    };
+    return { getDoctorStats };
+  });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/factories/patientFctry.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict"; 
+
+  module.factory("PatientFctry", function ($q, $http) {
+
+      const getPatients = () => {
+        return $q( (resolve, reject) => {
+          $http
+          .get("https://fir-a5a79.firebaseio.com/patients.json")
+          .then( (patientData) => {
+            console.log(patientData.data);
+            resolve(patientData.data);
+          })
+          .catch( (err) => {
+            console.log(err);
+            reject(err);
+          });
+        });
+      };
+      return { getPatients };
+    });
+
+}) (angular.module ('DoctorApp', ['ngRoute']));
+
+
+
+//====================================================================================================================
+// Module:    DoctorApp
+// Optimized: Yes
+// File:      ./app/app.js
+//====================================================================================================================
+
+(function (module) {
+
+  "use strict";
+
+  module
+  .config($routeProvider => {
+    $routeProvider
+    .when("/doctors", {
+      templateUrl: "../partials/doctorView.html",
+      controller: "DoctorCtrl"
+    })
+    .when("/doctor/:doctor_id", {
+      templateUrl: "../partials/patientList.html",
+      controller: "PatientCtrl"
+    });
+  });
+
+
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/controllers/doctorCtrl.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.controller("DoctorCtrl", function ($scope, DoctorFctry) {
+
+    DoctorFctry.getDoctorStats()
+    .then( (doctorData) => {
+      $scope.drArr = [];
+      // receives object of doctor objects from API, pushing each object to drArr for angular use in partial
+      for (let doctor in doctorData) {
+        // adding a property of doctor_id of each doctor for use in hyperlink
+        doctorData[doctor].doctor_id = doctor;
+        $scope.drArr.push(doctorData[doctor]);
+      }
+      console.log($scope.drArr);
+    });
+
+  });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/controllers/patientCtrl.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.controller("PatientCtrl", function ($scope, $routeParams, PatientFctry) {
+
+    let selectedDr = $routeParams.doctor_id;
+
+    PatientFctry.getPatients()
+    .then( (patientData) => {
+      // declaring empty array to collect selected doctor's patients for display in DOM
+      $scope.drsPatients = [];
+      // checking for selected doctor's patients
+      for(let patient in patientData) {
+        let patientsDr = patientData[patient].doctor_id;
+        if (patientsDr === selectedDr) {
+          $scope.drsPatients.push(patientData[patient]);
+        }
+      }
+    });
+
+    });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/factories/doctorFctry.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.factory("DoctorFctry", function ($q, $http) {
+
+    const getDoctorStats = () => {
+      return $q( (resolve, reject) => {
+        $http
+        .get("https://fir-a5a79.firebaseio.com/doctors.json")
+        .then( (doctorData) => {
+          resolve(doctorData.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+      });
+    };
+    return { getDoctorStats };
+  });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/factories/patientFctry.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict"; 
+
+  module.factory("PatientFctry", function ($q, $http) {
+
+      const getPatients = () => {
+        return $q( (resolve, reject) => {
+          $http
+          .get("https://fir-a5a79.firebaseio.com/patients.json")
+          .then( (patientData) => {
+            resolve(patientData.data);
+          })
+          .catch( (err) => {
+            console.log(err);
+            reject(err);
+          });
+        });
+      };
+      return { getPatients };
+    });
+
+}) (angular.module ('DoctorApp', ['ngRoute']));
+
+
+
+//====================================================================================================================
+// Module:    DoctorApp
+// Optimized: Yes
+// File:      ./app/app.js
+//====================================================================================================================
+
+(function (module) {
+
+  "use strict";
+
+  module
+  .config($routeProvider => {
+    $routeProvider
+    .when("/doctors", {
+      templateUrl: "../partials/doctorView.html",
+      controller: "DoctorCtrl"
+    })
+    .when("/doctor/:doctor_id", {
+      templateUrl: "../partials/patientList.html",
+      controller: "PatientCtrl"
+    });
+  });
+
+
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/controllers/doctorCtrl.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.controller("DoctorCtrl", function ($scope, DoctorFctry) {
+
+    DoctorFctry.getDoctorStats()
+    .then( (doctorData) => {
+      $scope.drArr = [];
+      // receives object of doctor objects from API, pushing each object to drArr for angular use in partial
+      for (let doctor in doctorData) {
+        // adding a property of doctor_id of each doctor for use in hyperlink
+        doctorData[doctor].doctor_id = doctor;
+        $scope.drArr.push(doctorData[doctor]);
+      }
+    });
+
+  });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/controllers/patientCtrl.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.controller("PatientCtrl", function ($scope, $routeParams, PatientFctry) {
+
+    let selectedDr = $routeParams.doctor_id;
+
+    PatientFctry.getPatients()
+    .then( (patientData) => {
+      // declaring empty array to collect selected doctor's patients for display in DOM
+      $scope.drsPatients = [];
+      // checking for selected doctor's patients
+      for(let patient in patientData) {
+        let patientsDr = patientData[patient].doctor_id;
+        if (patientsDr === selectedDr) {
+          $scope.drsPatients.push(patientData[patient]);
+        }
+      }
+    });
+
+    });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/factories/doctorFctry.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict";
+
+  module.factory("DoctorFctry", function ($q, $http) {
+
+    const getDoctorStats = () => {
+      return $q( (resolve, reject) => {
+        $http
+        .get("https://fir-a5a79.firebaseio.com/doctors.json")
+        .then( (doctorData) => {
+          resolve(doctorData.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+      });
+    };
+    return { getDoctorStats };
+  });
+//--------------------------------------------------------------------------------------------------------------------
+// File: ./app/factories/patientFctry.js
+//--------------------------------------------------------------------------------------------------------------------
+
+  "use strict"; 
+
+  module.factory("PatientFctry", function ($q, $http) {
+
+      const getPatients = () => {
+        return $q( (resolve, reject) => {
+          $http
+          .get("https://fir-a5a79.firebaseio.com/patients.json")
+          .then( (patientData) => {
             resolve(patientData.data);
           })
           .catch( (err) => {

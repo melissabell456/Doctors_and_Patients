@@ -7,7 +7,6 @@ angular.module("DoctorApp").factory("PatientFctry", function ($q, $http) {
         $http
         .get("https://fir-a5a79.firebaseio.com/patients.json")
         .then( (patientData) => {
-          console.log(patientData.data);
           resolve(patientData.data);
         })
         .catch( (err) => {
